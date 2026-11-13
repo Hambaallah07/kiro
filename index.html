@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense &amp; Budget Visualizer</title>
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Anti-FOSC: terapkan dark-mode sebelum halaman dirender -->
+  <script>
+    (function () {
+      var theme = localStorage.getItem('theme');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark-mode');
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <header>
+    <h1>Expense &amp; Budget Visualizer</h1>
+    <button id="theme-toggle" type="button" aria-label="Toggle dark mode">
+      🌙 Dark Mode
+    </button>
+  </header>
+
+  <main>
+
+    <!-- Bagian ringkasan total pengeluaran & indikator spending limit -->
+    <section id="summary" aria-label="Ringkasan Total Pengeluaran">
+      <h2>Total Pengeluaran</h2>
+      <p id="total-amount">Rp 0</p>
+      <p id="limit-status" aria-live="polite"></p>
+    </section>
+
+    <!-- Bagian form input transaksi baru -->
+    <section id="form-section" aria-label="Tambah Transaksi Baru">
+      <h2>Tambah Transaksi</h2>
+      <form id="transaction-form" novalidate>
+
+        <div class="form-group">
+          <label for="tx-name">Nama Transaksi</label>
+          <input
+            type="text"
+            id="tx-name"
+            name="tx-name"
+            maxlength="100"
+            placeholder="Contoh: Makan siang"
+            autocomplete="off"
+          />
+          <span class="field-error" id="error-name" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="tx-amount">Nominal (Rp)</label>
+          <input
+            type="number"
+            id="tx-amount"
+            name="tx-amount"
+            min="1"
+            max="999999999"
+            placeholder="Contoh: 50000"
+          />
+          <span class="field-error" id="error-amount" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="tx-category">Kategori</label>
+          <select id="tx-category" name="tx-category">
+            <option value="" disabled selected>-- Pilih Kategori --</option>
+            <option value="Food">Food</option>
+            <option value="Transport">Transport</option>
+            <option value="Fun">Fun</option>
+          </select>
+          <span class="field-error" id="error-category" aria-live="polite"></span>
+        </div>
+
+        <button type="submit" id="btn-save">Simpan</button>
+
+      </form>
+    </section>
+
+    <!-- Bagian input spending limit -->
+    <section id="spending-limit-section" aria-label="Batas Pengeluaran">
+      <h2>Batas Pengeluaran</h2>
+      <div class="form-group">
+        <label for="spending-limit-input">Spending Limit (Rp)</label>
+        <input
+          type="number"
+          id="spending-limit-input"
+          name="spending-limit"
+          min="1"
+          max="999999999"
+          placeholder="Kosongkan untuk menonaktifkan"
+        />
+        <span class="field-error" id="error-spending-limit" aria-live="polite"></span>
+      </div>
+      <button type="button" id="btn-save-limit">Simpan Batas</button>
+    </section>
+
+    <!-- Area utama: daftar transaksi + pie chart berdampingan -->
+    <section id="content" aria-label="Daftar dan Visualisasi">
+
+      <!-- Kolom kiri: daftar transaksi + kontrol pengurutan -->
+      <div id="transaction-list-wrapper">
+        <h2>Riwayat Transaksi</h2>
+
+        <!-- Kontrol pengurutan -->
+        <div id="sort-controls" role="group" aria-label="Urutan transaksi">
+          <span>Urutkan:</span>
+          <button type="button" class="sort-btn active" data-sort="newest">Terbaru</button>
+          <button type="button" class="sort-btn" data-sort="oldest">Terlama</button>
+          <button type="button" class="sort-btn" data-sort="amount-desc">Nominal ↓</button>
+          <button type="button" class="sort-btn" data-sort="amount-asc">Nominal ↑</button>
+          <button type="button" class="sort-btn" data-sort="category-az">Kategori A–Z</button>
+        </div>
+
+        <ul id="transaction-list" aria-label="Daftar transaksi">
+          <!-- Item transaksi dirender oleh JS -->
+        </ul>
+      </div>
+
+      <!-- Kolom kanan: pie chart -->
+      <div id="chart-wrapper" aria-label="Diagram Pengeluaran per Kategori">
+        <h2>Diagram Pengeluaran</h2>
+        <canvas id="pie-chart" role="img" aria-label="Pie chart pengeluaran per kategori"></canvas>
+        <p id="chart-empty-msg">Belum ada data untuk ditampilkan. Tambahkan transaksi pertama Anda!</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Banner error penyimpanan (ditampilkan oleh JS jika Local Storage gagal) -->
+  <div id="storage-error-banner" role="alert" aria-live="assertive" hidden>
+    Gagal menyimpan data. Penyimpanan browser tidak tersedia atau penuh.
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Expense &amp; Budget Visualizer. Data tersimpan di browser Anda.</p>
+  </footer>
+
+  <!-- Chart.js via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <!-- Script utama aplikasi -->
+  <script src="js/script.js"></script>
+
+</body>
+</html>

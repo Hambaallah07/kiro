@@ -1,0 +1,580 @@
+/* ============================================================
+   Expense & Budget Visualizer — style.css
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. CSS Custom Properties — Light Mode (default)
+   ------------------------------------------------------------ */
+:root {
+  --color-bg:            #f8f9fa;
+  --color-surface:       #ffffff;
+  --color-border:        #dee2e6;
+  --color-text:          #212529;
+  --color-text-muted:    #6c757d;
+  --color-primary:       #0d6efd;
+  --color-danger:        #dc3545;
+  --color-warning-bg:    #fff3cd;
+  --color-warning-text:  #856404;
+  --color-exceeded-bg:   #f8d7da;
+  --color-exceeded-text: #842029;
+  --color-shadow:        rgba(0, 0, 0, 0.08);
+}
+
+/* ------------------------------------------------------------
+   2. CSS Custom Properties — Dark Mode Overrides
+   ------------------------------------------------------------ */
+body.dark-mode {
+  --color-bg:            #121212;
+  --color-surface:       #1e1e1e;
+  --color-border:        #333333;
+  --color-text:          #e0e0e0;
+  --color-text-muted:    #9e9e9e;
+  --color-primary:       #4dabf7;
+  --color-danger:        #ff6b6b;
+  --color-warning-bg:    #332701;
+  --color-warning-text:  #ffd43b;
+  --color-exceeded-bg:   #2c0b0e;
+  --color-exceeded-text: #f1aeb5;
+  --color-shadow:        rgba(0, 0, 0, 0.4);
+}
+
+/* ------------------------------------------------------------
+   3. CSS Reset
+   ------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ------------------------------------------------------------
+   4. Base Typography & Background
+   ------------------------------------------------------------ */
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text);
+  line-height: 1.25;
+}
+
+p, li {
+  color: var(--color-text);
+}
+
+a {
+  color: var(--color-primary);
+}
+
+/* ============================================================
+   5. Layout Utama
+   ============================================================ */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ============================================================
+   6. Header
+   ============================================================ */
+header {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 4px var(--color-shadow);
+}
+
+header h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+#theme-toggle {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0.4rem 0.9rem;
+  transition: background-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+#theme-toggle:hover {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+
+/* ============================================================
+   7. Section (card-style)
+   ============================================================ */
+section {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 3px var(--color-shadow);
+}
+
+section h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.875rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   8. Summary (Total Pengeluaran)
+   ============================================================ */
+#summary {
+  border-radius: 0.75rem;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+#total-amount {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0.25rem 0;
+}
+
+#limit-status {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  min-height: 1.25rem;
+}
+
+#summary.status-warning {
+  background-color: var(--color-warning-bg);
+  border-color: #ffc107;
+  border-left: 4px solid #ffc107;
+}
+
+#summary.status-warning #total-amount,
+#summary.status-warning #limit-status {
+  color: var(--color-warning-text);
+}
+
+#summary.status-exceeded {
+  background-color: var(--color-exceeded-bg);
+  border-color: #dc3545;
+  border-left: 4px solid #dc3545;
+}
+
+#summary.status-exceeded #total-amount,
+#summary.status-exceeded #limit-status {
+  color: var(--color-exceeded-text);
+}
+
+/* ============================================================
+   9. Form Input
+   ============================================================ */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.875rem;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  color: var(--color-text);
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+  outline: none;
+}
+
+select {
+  cursor: pointer;
+}
+
+/* Pesan error inline */
+.field-error {
+  color: var(--color-danger);
+  font-size: 0.8rem;
+  min-height: 1.1rem;
+  display: block;
+}
+
+/* Tombol utama */
+button[type="submit"],
+#btn-save-limit {
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+  padding: 0.6rem 1.5rem;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+button[type="submit"]:hover,
+#btn-save-limit:hover {
+  opacity: 0.9;
+}
+
+button[type="submit"]:active,
+#btn-save-limit:active {
+  transform: scale(0.98);
+}
+
+/* ============================================================
+   10. Spending Limit Section
+   ============================================================ */
+#spending-limit-section {
+  display: flex;
+  flex-direction: column;
+}
+
+#spending-limit-section .form-group {
+  margin-bottom: 0.5rem;
+}
+
+/* ============================================================
+   11. Dua Kolom: Daftar + Chart (Content Area)
+   ============================================================ */
+#content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+#transaction-list-wrapper,
+#chart-wrapper {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px var(--color-shadow);
+  padding: 1.25rem 1.5rem;
+}
+
+#transaction-list-wrapper h2,
+#chart-wrapper h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.875rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   12. Sort Controls
+   ============================================================ */
+#sort-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.875rem;
+}
+
+#sort-controls span {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-right: 0.1rem;
+}
+
+.sort-btn {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.65rem;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.sort-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.sort-btn.active {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* ============================================================
+   13. Daftar Transaksi
+   ============================================================ */
+#transaction-list {
+  list-style: none;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+#transaction-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+#transaction-list::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 2px;
+}
+
+.empty-message {
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.transaction-item {
+  align-items: center;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  padding: 0.65rem 0;
+  gap: 0.5rem;
+}
+
+.transaction-item:last-child {
+  border-bottom: none;
+}
+
+.tx-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.tx-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tx-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.tx-amount {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+/* Badge kategori */
+.badge {
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.1rem 0.5rem;
+  display: inline-block;
+  width: fit-content;
+}
+
+.badge-food      { background-color: rgba(77, 171, 247, 0.15); color: #1a7fc1; }
+.badge-transport { background-color: rgba(105, 219, 124, 0.15); color: #2f9e44; }
+.badge-fun       { background-color: rgba(255, 169, 77, 0.15); color: #d9480f; }
+
+body.dark-mode .badge-food      { background-color: rgba(77, 171, 247, 0.2); color: #74c0fc; }
+body.dark-mode .badge-transport { background-color: rgba(105, 219, 124, 0.2); color: #8ce99a; }
+body.dark-mode .badge-fun       { background-color: rgba(255, 169, 77, 0.2); color: #ffd8a8; }
+
+/* Tombol hapus */
+.btn-delete {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  height: 1.75rem;
+  line-height: 1;
+  padding: 0;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  width: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn-delete:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+/* ============================================================
+   14. Chart Wrapper
+   ============================================================ */
+#chart-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#chart-wrapper h2 {
+  align-self: flex-start;
+}
+
+#pie-chart {
+  max-width: 280px;
+  width: 100%;
+}
+
+#chart-empty-msg {
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+/* ============================================================
+   15. Storage Error Banner
+   ============================================================ */
+#storage-error-banner {
+  background-color: var(--color-exceeded-bg);
+  border-bottom: 2px solid #dc3545;
+  color: var(--color-exceeded-text);
+  font-size: 0.875rem;
+  padding: 0.6rem 1.5rem;
+  position: sticky;
+  top: 56px;
+  z-index: 99;
+  text-align: center;
+}
+
+/* ============================================================
+   16. Footer
+   ============================================================ */
+footer {
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+}
+
+/* ============================================================
+   17. Responsivitas Mobile (< 768px)
+   ============================================================ */
+@media (max-width: 767px) {
+  header {
+    padding: 0.6rem 1rem;
+  }
+
+  header h1 {
+    font-size: 1rem;
+  }
+
+  main {
+    padding: 0.75rem 0.875rem 1.5rem;
+    gap: 0.875rem;
+  }
+
+  section {
+    padding: 1rem;
+  }
+
+  #total-amount {
+    font-size: 1.6rem;
+  }
+
+  /* Satu kolom di mobile */
+  #content {
+    grid-template-columns: 1fr;
+  }
+
+  #sort-controls {
+    gap: 0.3rem;
+  }
+
+  .sort-btn {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  #transaction-list {
+    max-height: 300px;
+  }
+
+  #pie-chart {
+    max-width: 240px;
+  }
+}
